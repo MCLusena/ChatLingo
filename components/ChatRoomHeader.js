@@ -4,6 +4,7 @@ import { Stack } from 'expo-router'
 import { Entypo, Ionicons } from '@expo/vector-icons'
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { Image } from 'expo-image';
+import { blurhash } from '../utils/common';
 
 export default function ChatRoomHeader({ user, router }) {
     return (
@@ -20,6 +21,8 @@ export default function ChatRoomHeader({ user, router }) {
                             <Image
                                 source={user?.profileUrl}
                                 style={{ height: hp(4.5), aspectRatio: 1, borderRadius: 100 }}
+                                placeholder={{ blurhash }}
+                                transition={500}
                             />
                             <Text style={{ fontSize: hp(2.5) }} className="text-neutral-700 font-medium">
                                 {user?.username}

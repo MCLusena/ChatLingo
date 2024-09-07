@@ -5,11 +5,13 @@ import { StatusBar } from 'expo-status-bar'
 import ChatRoomHeader from '../../components/ChatRoomHeader'
 import MessageList from '../../components/MessageList'
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
+import DropDownPicker from 'react-native-dropdown-picker'
 import { Ionicons } from '@expo/vector-icons'
 import { useAuth } from '../../context/authContext'
 import { getRoomId } from '../../utils/common'
 import { addDoc, collection, doc, onSnapshot, orderBy, query, setDoc, Timestamp } from 'firebase/firestore'
 import { db } from '../../firebaseConfig'
+import { useLanguageSelector } from '../../context/languageContext';
 
 export default function ChatRoom() {
     const item = useLocalSearchParams()
@@ -19,6 +21,15 @@ export default function ChatRoom() {
     const textRef = useRef('')
     const inputRef = useRef(null)
     const scrollViewRef = useRef(null)
+    const { languages, selectedLanguage, setSelectedLanguage } = useLanguageSelector();
+    const [open, setOpen] = useState(false);
+    const [value, setValue] = useState(selectedLanguage);
+    const [items, setItems] = useState(
+        languages.map(lang => ({
+            label: lang.name,
+            value: lang.id,
+        }))
+    );
 
     useEffect(() => {
         createRoomIfNotExists()
@@ -88,6 +99,14 @@ export default function ChatRoom() {
         }
     }
 
+    useEffect(() => {
+        setItems([{ label: 'Translation disabled', value: 'disabled' }, ...languages.map(lang => ({ label: lang.name, value: lang.id }))])
+    }, [languages]);
+
+    useEffect(() => {
+        setValue(selectedLanguage);
+    }, [selectedLanguage]);
+
     return (
         <View className="flex-1 bg-white">
             <StatusBar style="dark" />
@@ -98,6 +117,37 @@ export default function ChatRoom() {
                     <MessageList scrollViewRef={scrollViewRef} messages={messages} currentUser={user} />
                 </View>
                 <View style={{ marginBottom: hp(2) }} className="pt-2">
+                    <View className="items-center mx-3">
+                        <DropDownPicker
+                            open={open}
+                            value={value}
+                            items={items}
+                            setOpen={setOpen}
+                            setValue={setValue}
+                            setItems={setItems}
+                            searchable={true}
+                            searchPlaceholder="Search..."
+                            onChangeValue={(item) => setSelectedLanguage(item)}
+                            placeholder="Select Language"
+                            containerStyle={{ marginBottom: 10 }}
+                            dropDownContainerStyle={{
+                                backgroundColor: "#fff",
+                                borderColor: '#E5E5E5',
+                            }}
+                            style={{
+                                backgroundColor: '#E0E7FF',
+                                borderColor: '#E5E5E5',
+                                borderRadius: 25,
+                                paddingHorizontal: 10,
+                                paddingVertical: hp(1),
+                                borderWidth: 1,
+                            }}
+                            labelStyle={{
+                                fontSize: hp(2),
+                                color: '#000',
+                            }}
+                        />
+                    </View>
                     <View className="flex-row justify-between items-center mx-3">
                         <View className="flex-row justify-between bg-white border p-2 border-neutral-300 rounded-full pl-5">
                             <TextInput
