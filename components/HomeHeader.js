@@ -68,6 +68,7 @@ export default function HomeHeader() {
                     searchable={true}
                     onChangeValue={(item) => setSelectedLanguage(item)}
                     searchPlaceholder="Search..."
+                    placeholder="Select Language"
                     containerStyle={{ width: wp(40), marginLeft: wp(22) }}
                     style={{
                         backgroundColor: '#C7D2FE',

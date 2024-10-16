@@ -8,12 +8,7 @@ import { getReactNativePersistence, initializeAuth } from 'firebase/auth'
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { getFirestore, collection } from "firebase/firestore";
 const firebaseConfig = {
-    apiKey: "AIzaSyARyRov8S010_rUkSmbu4dxeU0dtqtiIIc",
-    authDomain: "chatlingo-92b18.firebaseapp.com",
-    projectId: "chatlingo-92b18",
-    storageBucket: "chatlingo-92b18.appspot.com",
-    messagingSenderId: "1027357263849",
-    appId: "1:1027357263849:web:5458c894a9f8ddd3ee6d78"
+
 };
 
 // Initialize Firebase

@@ -1,5 +1,5 @@
 const config = {
-  apiKey: 'AIzaSyARyRov8S010_rUkSmbu4dxeU0dtqtiIIc'
+  // apiKey: Enter Google translate API key here
 };
 
 export default config;
